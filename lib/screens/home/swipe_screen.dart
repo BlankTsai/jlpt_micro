@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'; // 引入套件
-import '../models/word_card.dart';
+import '../../models/word_card.dart';
 
 class SwipeScreen extends StatefulWidget {
   const SwipeScreen({super.key});

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'secrets.dart';
-import 'screens/swipe_screen.dart';
+import 'screens/main_layout.dart';
 
 Future<void> main() async {
   // 確保 Flutter 核心已初始化
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
-      home: const SwipeScreen(),
+      home: const MainLayout(),
     );
   }
 }
