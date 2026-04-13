@@ -83,7 +83,7 @@ class _SwipeScreenState extends State<SwipeScreen> {
                           ? 3
                           : _flashcards.length,
                       padding: const EdgeInsets.all(24.0),
-                      cardBuilder: (context, index, _, __) =>
+                      cardBuilder: (context, index, _, _) =>
                           _buildCard(_flashcards[index]),
                     ),
                   ),
