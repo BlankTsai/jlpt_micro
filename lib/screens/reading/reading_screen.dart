@@ -240,12 +240,55 @@ class _ReadingScreenState extends State<ReadingScreen> {
                   leading: const Icon(Icons.star_border, color: Colors.orange),
                   title: Text(vocab['word'] ?? ''),
                   subtitle: Text(vocab['meaning'] ?? ''),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.volume_up, color: Colors.teal),
-                    onPressed: () {
-                      // 7. 點擊單字旁邊的按鈕也可以單獨唸出單字！
-                      _speak(vocab['word'] ?? '');
-                    },
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min, // 確保 Row 只佔用需要的寬度，防止排版崩潰
+                    children: [
+                      // 按鈕一：語音朗讀單字
+                      IconButton(
+                        icon: const Icon(Icons.volume_up, color: Colors.teal),
+                        onPressed: () {
+                          _speak(vocab['word'] ?? '');
+                        },
+                      ),
+                      // 按鈕二：加入雲端單字庫 (Supabase)
+                      IconButton(
+                        icon: const Icon(
+                          Icons.add_circle_outline,
+                          color: Colors.teal,
+                        ),
+                        onPressed: () async {
+                          Navigator.pop(context); // 點擊後先自動收起底部視窗
+
+                          try {
+                            // 寫入 Supabase 資料庫，會自動帶入當前使用者的 uid
+                            await Supabase.instance.client
+                                .from('words')
+                                .insert({
+                                  'word': vocab['word'],
+                                  'reading': '',
+                                  'meaning': vocab['meaning'],
+                                });
+
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('已將 ${vocab['word']} 加入每日字卡庫！'),
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('加入失敗，請稍後再試'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 );
               }),
