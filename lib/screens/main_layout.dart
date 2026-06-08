@@ -29,26 +29,33 @@ class _MainLayoutState extends State<MainLayout> {
     return Scaffold(
       // 使用 IndexedStack 包裝，以保留各分頁的狀態
       body: IndexedStack(index: _currentIndex, children: _pages),
-      bottomNavigationBar: BottomNavigationBar(
-        // 當分頁超過 3 個時，必須設定為 fixed，否則 icon 會變成白色消失
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        selectedItemColor: Colors.teal, // 選中的顏色
-        unselectedItemColor: Colors.grey, // 未選中的顏色
-        onTap: (index) {
-          // 當使用者點擊底部按鈕時，更新狀態切換畫面
-          setState(() {
-            _currentIndex = index;
-          });
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (index) {
+          setState(() => _currentIndex = index);
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.style), // 圖示可以隨你喜好更換
+        animationDuration: const Duration(milliseconds: 400),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.style_outlined),
+            selectedIcon: Icon(Icons.style),
             label: '每日字卡',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: '文法'),
-          BottomNavigationBarItem(icon: Icon(Icons.headset), label: '聽讀'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '個人'),
+          NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book),
+            label: '文法',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.headset_outlined),
+            selectedIcon: Icon(Icons.headset),
+            label: '聽讀',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outlined),
+            selectedIcon: Icon(Icons.person),
+            label: '個人',
+          ),
         ],
       ),
     );

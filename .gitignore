@@ -18,15 +18,14 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# VS Code
+.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
@@ -44,5 +43,25 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Ignore secrets file
+# ===== 安全性：敏感檔案 =====
+
+# Supabase 金鑰
 lib/secrets.dart
+
+# 任何可能含有密碼/金鑰的文字檔
+supabase_code.txt
+
+# Android 簽署金鑰
+*.jks
+*.keystore
+android/key.properties
+android/app/google-services.json
+
+# iOS 簽署
+ios/**/Secrets/
+ios/**/AuthKey_*.p8
+
+# 環境變數檔
+.env
+.env.*
+*.env

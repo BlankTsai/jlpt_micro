@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../main_layout.dart';
 import '../auth/login_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -25,7 +24,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     // 把難度也存起來，之後抓單字可以用
     await prefs.setString('targetLevel', _selectedLevel);
 
-    if (!mounted) return;
+    if (!context.mounted) return;
     Navigator.of(
       context,
     ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
