@@ -7,11 +7,15 @@ import '../../services/auth_service.dart';
 import '../../services/word_service.dart';
 import '../../services/grammar_service.dart';
 import '../../services/daily_task_service.dart';
+import '../../services/achievement_service.dart';
 import '../../utils/shimmer_loading.dart';
 import '../../utils/page_transitions.dart';
 import '../splash/splash_screen.dart';
 import '../mastered/mastered_words_screen.dart';
 import '../mastered/mastered_grammar_screen.dart';
+import '../mastered/bookmarked_words_screen.dart';
+import '../quiz/quiz_screen.dart';
+import '../achievements/achievements_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -75,6 +79,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (_) {
       return [];
     }
+  }
+
+  /// 檢查並顯示新解鎖的成就
+  Future<void> _checkNewAchievements() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final achievements = await AchievementService.checkAchievements();
+
+      for (final a in achievements) {
+        if (a.unlocked) {
+          final key = 'achievement_shown_${a.id}';
+          final alreadyShown = prefs.getBool(key) ?? false;
+          if (!alreadyShown && mounted) {
+            await prefs.setBool(key, true);
+            if (!mounted) return;
+            showAchievementUnlocked(context, a);
+            break; // 一次只顯示一個
+          }
+        }
+      }
+    } catch (_) {}
   }
 
   /// 登出
@@ -312,6 +337,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         _loadUserData();
                       },
                     ),
+                    _buildMenuTile(
+                      icon: Icons.bookmark,
+                      title: '我的收藏',
+                      subtitle: '收藏的重點單字',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlidePageRoute(page: const BookmarkedWordsScreen()),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    _buildMenuTile(
+                      icon: Icons.quiz,
+                      title: '模擬測驗',
+                      subtitle: '測試你的學習成果',
+                      onTap: () async {
+                        final score = await Navigator.push<int>(
+                          context,
+                          SlidePageRoute(page: const QuizScreen()),
+                        );
+                        // 檢查是否解鎖新成就
+                        if (score != null && mounted) {
+                          _checkNewAchievements();
+                          if (score == 100) {
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setInt('best_quiz_score', 100);
+                          }
+                        }
+                      },
+                    ),
+                    _buildMenuTile(
+                      icon: Icons.emoji_events,
+                      title: '學習成就',
+                      subtitle: '查看你的徽章收集',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlidePageRoute(page: const AchievementsScreen()),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 8),
                     _buildMenuTile(
                       icon: Icons.swap_horiz,
                       title: '切換目標級別',

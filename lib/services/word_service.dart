@@ -178,4 +178,21 @@ class WordService {
     // 建立 SRS 進度（如果尚未存在）
     await createProgress(vocabId);
   }
+
+  /// 切換單字收藏狀態
+  static Future<void> toggleBookmark(int progressId, bool isBookmarked) async {
+    await _client.from('user_word_progress').update({
+      'is_bookmarked': isBookmarked,
+    }).eq('id', progressId);
+  }
+
+  /// 取得所有收藏的單字
+  static Future<List<Map<String, dynamic>>> getBookmarkedWords() async {
+    final data = await _client
+        .from('user_word_progress')
+        .select('*, vocabulary_bank(*)')
+        .eq('is_bookmarked', true)
+        .order('updated_at', ascending: false);
+    return List<Map<String, dynamic>>.from(data);
+  }
 }

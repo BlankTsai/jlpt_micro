@@ -23,6 +23,9 @@ class WordProgress {
   final String? exampleMeaning;
   final String? level;
 
+  // 收藏狀態
+  final bool isBookmarked;
+
   WordProgress({
     required this.id,
     required this.userId,
@@ -43,6 +46,7 @@ class WordProgress {
     this.exampleSentence,
     this.exampleMeaning,
     this.level,
+    this.isBookmarked = false,
   });
 
   factory WordProgress.fromJson(Map<String, dynamic> json) {
@@ -76,6 +80,7 @@ class WordProgress {
       exampleSentence: vocab['example_sentence'],
       exampleMeaning: vocab['example_meaning'],
       level: vocab['level'],
+      isBookmarked: json['is_bookmarked'] ?? false,
     );
   }
 

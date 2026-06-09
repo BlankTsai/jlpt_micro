@@ -352,6 +352,49 @@ class _SwipeScreenState extends State<SwipeScreen> {
       ),
       child: Stack(
         children: [
+          // ⭐ 收藏按鈕（左上角）
+          Positioned(
+            top: 8,
+            left: 8,
+            child: IconButton(
+              icon: Icon(
+                p.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                color: p.isBookmarked ? Colors.amber : Colors.grey.shade400,
+                size: 28,
+              ),
+              onPressed: () {
+                final newState = !p.isBookmarked;
+                setState(() {
+                  _cards[index] = _StudyCard(
+                    progress: WordProgress(
+                      id: p.id,
+                      userId: p.userId,
+                      vocabId: p.vocabId,
+                      status: p.status,
+                      familiarity: p.familiarity,
+                      easeFactor: p.easeFactor,
+                      intervalDays: p.intervalDays,
+                      nextReviewAt: p.nextReviewAt,
+                      timesSeen: p.timesSeen,
+                      timesCorrect: p.timesCorrect,
+                      createdAt: p.createdAt,
+                      updatedAt: p.updatedAt,
+                      word: p.word,
+                      reading: p.reading,
+                      meaning: p.meaning,
+                      partOfSpeech: p.partOfSpeech,
+                      exampleSentence: p.exampleSentence,
+                      exampleMeaning: p.exampleMeaning,
+                      level: p.level,
+                      isBookmarked: newState,
+                    ),
+                    isNew: isNew,
+                  );
+                });
+                WordService.toggleBookmark(p.id, newState);
+              },
+            ),
+          ),
           // 新卡 / 複習標籤
           Positioned(
             top: 16,
