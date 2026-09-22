@@ -6,6 +6,22 @@ JLPT Micro combines vocabulary, grammar, reading, spaced repetition, and learnin
 
 ---
 
+## App Screenshots
+
+Actual application screenshots showing the four main learning areas in dark mode, with a Traditional Chinese interface and Japanese learning content.
+
+| Daily Vocabulary | Grammar Learning |
+| :---: | :---: |
+| <img src="docs/screenshots/daily-vocabulary.jpg" alt="Daily vocabulary screen showing a Japanese flashcard and daily task progress" width="280"> | <img src="docs/screenshots/grammar.jpg" alt="Grammar screen listing Japanese sentence patterns with Chinese meanings" width="280"> |
+| Review Japanese vocabulary with flashcards and track daily task progress. | Browse core grammar patterns and their Chinese meanings. |
+
+| Reading & Listening | Learning Dashboard |
+| :---: | :---: |
+| <img src="docs/screenshots/reading-listening.jpg" alt="Reading and listening screen showing a Japanese article with narration, translation, and completion controls" width="280"> | <img src="docs/screenshots/learning-dashboard.jpg" alt="Personal dashboard showing the JLPT target, learning streak, weekly activity, and learned items" width="280"> |
+| Read short Japanese articles with narration and translation controls. | View the JLPT target, learning streak, weekly activity, and learned items. |
+
+---
+
 ## Project Overview
 
 Traditional language-learning applications often contain large amounts of learning material, which can make it difficult for learners to maintain a consistent study routine.
